@@ -22,10 +22,14 @@ namespace Quark
 			decl_expansionRule(MathValuePrintRule)
 			{
 				out << "\n" << setw(indent) << fmt::format("NodeType: Value({})", node->value);
+
+				return noRaise;
 			}
 			decl_expansionRule(MathWordPrintRule)
 			{
 				out << "\n" << setw(indent) << fmt::format("NodeType: Word({})", node->value);
+
+				return noRaise;
 			}
 
 			decl_expansionRule(MathAddPrintRule)
@@ -34,6 +38,8 @@ namespace Quark
 				node->left()->expand(out);
 				node->right()->expand(out);
 				out << "\n"; indent--;
+
+				return noRaise;
 			}
 			decl_expansionRule(MathSubPrintRule)
 			{
@@ -41,6 +47,8 @@ namespace Quark
 				node->left()->expand(out);
 				node->right()->expand(out);
 				out << "\n"; indent--;
+
+				return noRaise;
 			}
 			decl_expansionRule(MathMulPrintRule)
 			{
@@ -48,6 +56,8 @@ namespace Quark
 				node->left()->expand(out);
 				node->right()->expand(out);
 				out << "\n"; indent--;
+
+				return noRaise;
 			}
 			decl_expansionRule(MathDivPrintRule)
 			{
@@ -55,6 +65,8 @@ namespace Quark
 				node->left()->expand(out);
 				node->right()->expand(out);
 				out << "\n"; indent--;
+
+				return noRaise;
 			}
 
 			decl_expansionRule(MathFunctionCallPrintRule)
@@ -67,6 +79,8 @@ namespace Quark
 				}
 
 				out << "\n"; indent--;
+
+				return noRaise;
 			}
 		}
 

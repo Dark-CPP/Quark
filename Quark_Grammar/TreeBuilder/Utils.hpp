@@ -12,7 +12,7 @@ namespace Quark
 		{
 			inline Match unpack_repeat_rule(MatchString_Ad& repeatmatch, NodeType a_type, std::string a_value, NodeType b_type, std::string b_value)
 			{
-				Node* lhs = repeatmatch.match[0].nodeTree;
+				NodePtr lhs = repeatmatch.match[0].nodeTree;
 
 				for (size_t i = 1; i < repeatmatch.match.size(); i++)
 				{
@@ -40,7 +40,7 @@ namespace Quark
 			/// </summary>
 			inline Match unpack_repeat_rule_ig_split(MatchString_Ad& repeatmatch, std::string a_value)
 			{
-				Node* lhs = Node::create(NodeType::Unknown);
+				NodePtr lhs = Node::create(NodeType::Unknown);
 
 				for (size_t i = 0; i < repeatmatch.match.size(); i++)
 				{

@@ -4,24 +4,29 @@
 #include <functional>
 #include <unordered_map>
 #include <vector>
+#include <memory>
 
 #include <fmt/format.h>
 
 #include "Enums.hpp"
+#include "RaiseMessage.hpp"
 
 namespace Quark
 {
     struct Node;
 
-    using ExpansionRule = std::function<void(Node*, std::ostream&)>;
+    using NodePtr = std::shared_ptr<Node>;
+
+    using ExpansionRule = std::function<RaiseMessage(NodePtr, std::ostream&)>;
     using ExpansionRuleList = std::unordered_map<NodeType, ExpansionRule>;
     inline ExpansionRuleList ExpansionRules;
 
-    struct Node
+    // Use Smart Pointers
+    struct Node : std::enable_shared_from_this<Node>
     {
         NodeType type;
         std::string value;
-        std::vector<Node*> node_list;
+        std::vector<std::shared_ptr<Node>> node_list;
 
         Node() : type(NodeType::NONE) { ; }
         Node(NodeType node_type) : type(node_type) { ; }
@@ -32,7 +37,7 @@ namespace Quark
             value = node_value;
         }
 
-        Node(NodeType node_type, Node* lhs, Node* rhs)
+        Node(NodeType node_type, NodePtr lhs, NodePtr rhs)
         {
             type = node_type;
 
@@ -40,40 +45,40 @@ namespace Quark
             node_list.push_back(rhs);
         }
 
-        Node(NodeType node_type, const std::vector<Node*>& node_array)
+        Node(NodeType node_type, const std::vector<NodePtr>& node_array)
         {
             type = node_type;
 
             node_list = node_array;
         }
 
-        static Node* create(NodeType node_type, const std::string& node_value)
+        static NodePtr create(NodeType node_type, const std::string& node_value)
         {
-            return new Node(node_type, node_value);
+            return std::make_shared<Node>(node_type, node_value);
         }
 
-        static Node* create(NodeType node_type, Node* lhs, Node* rhs)
+        static NodePtr create(NodeType node_type, NodePtr lhs, NodePtr rhs)
         {
-            return new Node(node_type, lhs, rhs);
+            return std::make_shared<Node>(node_type, lhs, rhs);
         }
 
-        static Node* create(NodeType node_type, const std::vector<Node*>& node_array)
+        static NodePtr create(NodeType node_type, const std::vector<NodePtr>& node_array)
         {
-            return new Node(node_type, node_array);
+            return std::make_shared<Node>(node_type, node_array);
         }
 
-        static Node* create(NodeType node_type)
+        static NodePtr create(NodeType node_type)
         {
-            return new Node(node_type);
+            return std::make_shared<Node>(node_type);
         }
 
-        void expand(std::ostream& os)
+        RaiseMessage expand(std::ostream& os)
         {
-            ExpansionRules[type](this, os);
+            return ExpansionRules[type](shared_from_this(), os);
         }
 
-        Node* left() { return node_list[0]; }
-        Node* right() { return node_list[1]; }
+        NodePtr left() { return node_list[0]; }
+        NodePtr right() { return node_list[1]; }
     };
 }
 

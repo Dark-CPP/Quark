@@ -19,15 +19,15 @@ namespace Quark
     struct Match
     {
         bool hasMatched;
-        Node* nodeTree;
+        NodePtr nodeTree;
         RaiseMessage raisedMessage;
 
         Match() : nodeTree(nullptr), hasMatched(false), raisedMessage(noRaise) { ; }
-        Match(bool m, Node* node) : hasMatched(m), nodeTree(node), raisedMessage(noRaise) { ; }
-        Match(Node* node) : hasMatched(true), nodeTree(node), raisedMessage(noRaise) { ; }
+        Match(bool m, NodePtr node) : hasMatched(m), nodeTree(node), raisedMessage(noRaise) { ; }
+        Match(NodePtr node) : hasMatched(true), nodeTree(node), raisedMessage(noRaise) { ; }
 
         Match(RaiseMessage rs) : hasMatched(false), nodeTree(nullptr), raisedMessage(rs) { ; }
-        Match(bool m, Node* node, RaiseMessage rs) : hasMatched(m), nodeTree(node), raisedMessage(rs) { ; }
+        Match(bool m, NodePtr node, RaiseMessage rs) : hasMatched(m), nodeTree(node), raisedMessage(rs) { ; }
 
         Match operator ||(bool rhs)
         {
