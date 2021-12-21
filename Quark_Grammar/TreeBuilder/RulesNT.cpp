@@ -13,7 +13,7 @@ namespace Quark
 				init_nodeTreeRule();
 
 				auto repeatMatch = tokenRegex.repeat_rule(MathExpressionRule, ","_rxrule, "("_rxrule, ")"_rxrule);
-				auto ErrorData = repeatMatch.raisedMessage.extractData();
+				auto ErrorData = repeatMatch.raisedMessage.raiseData;
 
 				if (ErrorData["repeatFail"] != "noFail")
 				{
@@ -75,7 +75,7 @@ namespace Quark
 				{
 					auto failedMatch = getFailedMatch(matched);
 
-					if (failedMatch.raisedMessage.isValuePresent("exprFail"))
+					if (failedMatch.raisedMessage.isFlagSet("exprFail"))
 					{
 						failedMatch.raisedMessage.raiseData = "bracketComfirmFail";
 					}
@@ -100,7 +100,7 @@ namespace Quark
 
 					return matchedFunction.match[0];
 				}
-				else if (matchedFunction.match[0].raisedMessage.isValuePresent("functionCallArgsComfirmFail"))
+				else if (matchedFunction.match[0].raisedMessage.isFlagSet("functionCallArgsComfirmFail"))
 				{
 					return matchedFunction.match[0].raisedMessage;
 				}
@@ -109,7 +109,7 @@ namespace Quark
 
 				if (!matched)
 				{
-					auto Data = matched.raisedMessage.extractData();
+					auto& Data = matched.raisedMessage.raiseData;
 
 					auto errorTokenID = std::stoi(Data["readTokenID"]);
 					auto errorToken = lexerIterator.thisLexer.tokens[errorTokenID];
@@ -143,7 +143,7 @@ namespace Quark
 
 				std::vector<RaiseMessage> raisedMsgs = { matches[0].match.raisedMessage, matches[1].match.raisedMessage };
 
-				if (raisedMsgs[0].isValuePresent("bracketComfirmFail")) // ( token matched but math_expr did not
+				if (raisedMsgs[0].isFlagSet("bracketComfirmFail")) // ( token matched but math_expr did not
 				{
 					return failMatch(raisedMsgs[0]);
 				}
@@ -160,7 +160,7 @@ namespace Quark
 				init_nodeTreeRule();
 
 				auto repeatMatch = tokenRegex.repeat_rule(MathBracketTypeRule, []lambda_nodeTreeRule({ return tokenRegex.match_regex("*#/")[0]; }));
-				auto ErrorData = repeatMatch.raisedMessage.extractData();
+				auto ErrorData = repeatMatch.raisedMessage.raiseData;
 
 				if (ErrorData["repeatFail"] != "noFail" && ErrorData["repeatFail"] != "splitRuleFail")
 				{
@@ -179,7 +179,7 @@ namespace Quark
 
 				// split rule: match + or -
 				auto repeatMatch = tokenRegex.repeat_rule(MathTermRule, []lambda_nodeTreeRule({ return tokenRegex.match_regex("+#-")[0]; }));
-				auto ErrorData = repeatMatch.raisedMessage.extractData();
+				auto ErrorData = repeatMatch.raisedMessage.raiseData;
 
 				if (ErrorData["repeatFail"] != "noFail" && ErrorData["repeatFail"] != "splitRuleFail")
 				{

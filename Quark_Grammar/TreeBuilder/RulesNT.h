@@ -43,7 +43,7 @@ namespace Quark
 			if (!matched)
 			{
 				// has reached End of File/String
-				if (matched.raisedMessage.isValuePresent("invalidPos"))
+				if (matched.raisedMessage.isFlagSet("invalidPos"))
 				{
 					fmt::print("{0}Syntax Error[unexpected EOF]: Expected expression after \'{1}\' token\n"
 						, matched.raisedMessage.errorPointerString(li, lexer.tokens.size() - 1), lexer.tokens.back().value);

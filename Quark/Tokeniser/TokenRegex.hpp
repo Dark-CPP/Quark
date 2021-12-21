@@ -10,7 +10,7 @@ namespace Quark
     namespace defaults
     {
         // indicate that this is a default rule
-        inline auto defaultRaise = RaiseMessage{ RaiseSeverity::no_severity, "defaultRule", "" };
+        inline auto defaultRaise = RaiseMessage{ RaiseSeverity::no_severity, Raise::DataString{"defaultRule"}, "" };
 
         inline NodeTreeRule defaultSplitRule = [](LexerIterator& lexerIt) -> Match { return { true,  nullptr, defaultRaise }; };
         inline NodeTreeRule defaultStartRule = [](LexerIterator& lexerIt) -> Match { return { true,  nullptr, defaultRaise }; };
@@ -142,7 +142,7 @@ namespace Quark
                     }
 
                     // raiseData contains defaultRule flag, this rule is default
-                    if (split_or_end_match[0].match.raisedMessage.isValuePresent("defaultRule")) continue;
+                    if (split_or_end_match[0].match.raisedMessage.isFlagSet("defaultRule")) continue;
 
                     lexerIterator = split_or_end_match[0].lexerIterator;
                     ms.match.push_back(split_or_end_match[0].match);
@@ -150,7 +150,7 @@ namespace Quark
                 else
                 {
                     // raiseData contains defaultRule flag, this rule is default
-                    if (split_or_end_match[0].match.raisedMessage.isValuePresent("defaultRule"))
+                    if (split_or_end_match[0].match.raisedMessage.isFlagSet("defaultRule"))
                     {
                         ms.hasMatched = false;
                         ms.raisedMessage = repeat_match.raisedMessage;

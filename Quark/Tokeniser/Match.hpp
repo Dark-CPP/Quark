@@ -38,7 +38,7 @@ namespace Quark
     };
     
     inline Match nomatch = Match{};
-    inline Match invalidmatch = Match{ false, nullptr, RaiseMessage{ RaiseSeverity::error, "invalidPos", "" }};
+    inline Match invalidmatch = Match{ false, nullptr, RaiseMessage{ RaiseSeverity::error, Raise::DataString{"invalidPos"}, "" } };
     using NodeTreeRule = std::function<Match(LexerIterator&)>;
 
     struct MatchStatusPair
