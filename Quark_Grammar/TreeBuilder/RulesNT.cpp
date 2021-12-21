@@ -89,18 +89,22 @@ namespace Quark
 			Match MathValueTypeRule(LexerIterator& lexerIterator) // Match a number/variable/function
 			{
 				init_nodeTreeRule();
-				/*
+				
 				tokenRegex.rule_list = { "function"_rule = MathFunctionCallRule };
 
-				auto matches = tokenRegex.choose_regex({ "function" })[0];
+				auto matchedFunction = tokenRegex.choose_regex({ "function" })[0];
 
-				if (matches)
+				if (matchedFunction)
 				{
-					lexerIterator = matches.lexerIterator;
+					lexerIterator = matchedFunction.lexerIterator;
 
-					return matches.match[0];
+					return matchedFunction.match[0];
 				}
-				*/
+				else if (matchedFunction.match[0].raisedMessage.isValuePresent("functionCallArgsComfirmFail"))
+				{
+					return matchedFunction.match[0].raisedMessage;
+				}
+				
 				auto matched = tokenRegex.match_regex("word#value")[0];
 
 				if (!matched)

@@ -108,6 +108,15 @@ namespace Quark
                 {
                     ms.match.push_back(repeat_match);
                 }
+                else
+                {
+                    // split rule matched, but repeat rule did not
+                    // eg. 10 + + 10
+                    ms.hasMatched = false;
+                    ms.raisedMessage = repeat_match.raisedMessage;
+                    ms.raisedMessage.raiseData += " repeatFail:repeatRuleFail";
+                    return ms;
+                }
 
                 // check if end rule matched
                 if (split_or_end_match[1])
