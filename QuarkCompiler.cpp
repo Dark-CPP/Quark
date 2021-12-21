@@ -1,3 +1,7 @@
+// takes input form user and then parses it into a node tree
+// (if it fails to parse then an error is displayed)
+// if it is successful then the node tree is printed
+
 #include <iostream>
 
 #include <fmt/format.h>
