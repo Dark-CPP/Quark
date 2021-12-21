@@ -1,7 +1,7 @@
-## Quark
+# Quark
 C++ Library to help create a programming language with ease
 
-# How This Works
+## How This Works
 
 It parses the string/file in 3 steps:
 
@@ -9,7 +9,7 @@ It parses the string/file in 3 steps:
 <li>Parses the token array into a node tree by applying a set of user defined rules</li>
 <li>Goes thorough the node tree and executes a set of functions to use the node tree</li>
 
-# Example
+## Example
 
 QuarkCompiler.cpp and Quark_Grammar showcase the library
 
