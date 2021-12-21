@@ -1,6 +1,0 @@
-// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
-// such as names of functions and macros.
-// For more information see https://go.microsoft.com/fwlink/?linkid=865984
-#define __node_tree_rule__(RuleName, Code) Match RuleName(LexerIterator& lexerIterator) { if (!lexerIterator.isValid()) return nullmatch; Code }
-#define lambda_nodeTreeRule(body) (Quark::LexerIterator& lexerIterator){ init_nodeTreeRule() body }
-#define init_nodeTreeRule() if (!lexerIterator.isValid()) return Quark::nomatch; auto tokenRegex = Quark::TokenRegex{ lexerIterator };
