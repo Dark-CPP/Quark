@@ -1,5 +1,5 @@
 # Quark
-C++ Library to help create a programming language with ease
+C++ Library to help create a compiler/interpreter for a programming language with ease.
 
 ## How This Works
 
